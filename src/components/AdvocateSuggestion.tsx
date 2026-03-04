@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { MapPin, Star, Phone, MessageCircle, Award, Clock } from "lucide-react";
 import LocationDetector from "./LocationDetector";
 import { useLanguage } from "../context/LanguageContext";
@@ -31,6 +32,34 @@ const AdvocateSuggestion: React.FC<AdvocateSuggestionProps> = ({
 }) => {
   const [selectedLocation, setSelectedLocation] = useState("ঢাকা");
   const { language, t } = useLanguage();
+  const [apiAdvocates, setApiAdvocates] = useState<Advocate[]>([]);
+
+  useEffect(() => {
+    const fetchAdvocates = async () => {
+      try {
+        // Fetch from the public advocates API route
+        const { data } = await axios.get('http://localhost:5000/api/advocates');
+
+        const advocates = data.map((u: any) => ({
+          id: u._id,
+          name: u.name,
+          specialization: u.expertise?.join(', ') || 'General Law',
+          rating: 5.0, // Default mock rating
+          experience: `${u.experience || 1}+ years`,
+          location: u.location || 'Dhaka',
+          phone: u.phone,
+          image: u.image || 'https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg',
+          cases: 0,
+          available: true
+        }));
+
+        setApiAdvocates(advocates);
+      } catch (err) {
+        console.error("Failed to fetch custom advocates", err);
+      }
+    };
+    fetchAdvocates();
+  }, []);
 
   const handleLocationDetected = (location: string) => {
     setSelectedLocation(location);
@@ -108,7 +137,7 @@ const AdvocateSuggestion: React.FC<AdvocateSuggestionProps> = ({
   ];
 
   // Combine default advocates with custom registered advocates
-  const allAdvocates = [...defaultAdvocates, ...customAdvocates];
+  const allAdvocates = [...defaultAdvocates, ...customAdvocates, ...apiAdvocates];
 
   const locations = [
     { bn: "ঢাকা", en: "Dhaka" },
@@ -184,11 +213,10 @@ const AdvocateSuggestion: React.FC<AdvocateSuggestionProps> = ({
               <button
                 key={location.bn}
                 onClick={() => setSelectedLocation(location.bn)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  selectedLocation === location.bn
-                    ? "bg-blue-600 text-white shadow-lg"
-                    : "bg-white text-gray-700 hover:bg-blue-50 border border-gray-300"
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium transition-all ${selectedLocation === location.bn
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-blue-50 border border-gray-300"
+                  }`}
               >
                 {language === "bn" ? location.bn : location.en}
               </button>

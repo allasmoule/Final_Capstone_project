@@ -11,6 +11,9 @@ import ContactPage from "./components/ContactPage";
 import EducationPage from "./components/EducationPage";
 import SomjhotaPage from "./components/SomjhotaPage";
 import { LanguageProvider } from "./context/LanguageContext";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import AdminDashboard from "./components/AdminDashboard";
 
 interface Advocate {
   id: number;
@@ -29,7 +32,7 @@ interface Advocate {
 
 function App() {
   const [currentPage, setCurrentPage] = useState<
-    "home" | "advocate-registration" | "contact" | "education" | "somjhota"
+    "home" | "advocate-registration" | "contact" | "education" | "somjhota" | "login" | "register" | "admin"
   >("home");
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
@@ -45,6 +48,12 @@ function App() {
         setCurrentPage("education");
       } else if (hash === "#somjhota") {
         setCurrentPage("somjhota");
+      } else if (hash === "#login") {
+        setCurrentPage("login");
+      } else if (hash === "#register") {
+        setCurrentPage("register");
+      } else if (hash === "#admin") {
+        setCurrentPage("admin");
       } else {
         setCurrentPage("home");
       }
@@ -79,22 +88,57 @@ function App() {
   const handleChatbotOpen = () => {
     setIsChatbotOpen(true);
   };
-  if (currentPage === "advocate-registration") {
+  if (currentPage === "advocate-registration" || currentPage === "register") {
     return (
       <LanguageProvider>
         <div className="min-h-screen bg-white">
           <Header
             onAdvocateRegister={() => {
-              setCurrentPage("advocate-registration");
-              window.location.hash = "#advocate-registration";
+              setCurrentPage("register");
+              window.location.hash = "#register";
             }}
           />
-          <AdvocateRegistration onChatbotOpen={handleChatbotOpen} />
+          <Register />
+          {currentPage === "advocate-registration" && <AdvocateRegistration onChatbotOpen={handleChatbotOpen} />}
           <Chatbot
             isOpen={isChatbotOpen}
             onToggle={() => setIsChatbotOpen(!isChatbotOpen)}
             onAdvocateSuggestion={handleAdvocateSuggestion}
           />
+        </div>
+      </LanguageProvider>
+    );
+  }
+
+  if (currentPage === "login") {
+    return (
+      <LanguageProvider>
+        <div className="min-h-screen bg-white flex flex-col">
+          <Header
+            onAdvocateRegister={() => {
+              setCurrentPage("register");
+              window.location.hash = "#register";
+            }}
+          />
+          <div className="flex-grow flex items-center justify-center">
+            <Login />
+          </div>
+        </div>
+      </LanguageProvider>
+    );
+  }
+
+  if (currentPage === "admin") {
+    return (
+      <LanguageProvider>
+        <div className="min-h-screen bg-white">
+          <Header
+            onAdvocateRegister={() => {
+              setCurrentPage("register");
+              window.location.hash = "#register";
+            }}
+          />
+          <AdminDashboard />
         </div>
       </LanguageProvider>
     );

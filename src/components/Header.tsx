@@ -10,6 +10,14 @@ const Header: React.FC<HeaderProps> = ({ onAdvocateRegister }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeRoute, setActiveRoute] = useState("home");
   const { toggleLanguage, t } = useLanguage();
+  const [userInfo, setUserInfo] = useState<any>(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("userInfo");
+    if (user) {
+      setUserInfo(JSON.parse(user));
+    }
+  }, []);
 
   // Track active route based on hash
   useEffect(() => {
@@ -28,20 +36,18 @@ const Header: React.FC<HeaderProps> = ({ onAdvocateRegister }) => {
 
   const navLinkClass = (route: string) => {
     const isActive = activeRoute === route;
-    return `font-medium transition-colors ${
-      isActive
+    return `font-medium transition-colors ${isActive
         ? "text-blue-600 border-b-2 border-blue-600 pb-1"
         : "text-gray-700 hover:text-blue-600"
-    }`;
+      }`;
   };
 
   const mobileNavLinkClass = (route: string) => {
     const isActive = activeRoute === route;
-    return `font-medium transition-colors ${
-      isActive
+    return `font-medium transition-colors ${isActive
         ? "text-blue-600 bg-blue-50 px-3 py-2 rounded-lg"
         : "text-gray-700 hover:text-blue-600"
-    }`;
+      }`;
   };
 
   const handleNavClick = (route: string) => {
@@ -112,12 +118,47 @@ const Header: React.FC<HeaderProps> = ({ onAdvocateRegister }) => {
             >
               {t("nav.contact")}
             </a>
-            <button
-              onClick={onAdvocateRegister}
-              className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium text-sm"
-            >
-              {t("nav.registration")}
-            </button>
+            {!userInfo ? (
+              <>
+                <button
+                  onClick={onAdvocateRegister}
+                  className="bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium text-sm"
+                >
+                  {t("nav.registration")}
+                </button>
+                <a
+                  href="#login"
+                  onClick={() => handleNavClick("login")}
+                  className="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
+                >
+                  Login
+                </a>
+              </>
+            ) : (
+              <div className="flex items-center space-x-4">
+                {userInfo.role === 'admin' && (
+                  <a
+                    href="#admin"
+                    onClick={() => handleNavClick("admin")}
+                    className={navLinkClass("admin")}
+                  >
+                    Admin Panel
+                  </a>
+                )}
+                <span className="text-sm font-medium text-gray-700">Hi, {userInfo.name}</span>
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("userInfo");
+                    setUserInfo(null);
+                    window.location.hash = "#home";
+                    window.location.reload();
+                  }}
+                  className="bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700 transition-colors font-medium text-sm"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
 
             {/* Language Toggle Button */}
             <button
@@ -208,15 +249,49 @@ const Header: React.FC<HeaderProps> = ({ onAdvocateRegister }) => {
               >
                 {t("nav.contact")}
               </a>
-              <button
-                onClick={() => {
-                  onAdvocateRegister?.();
-                  setIsMenuOpen(false);
-                }}
-                className="text-left text-gray-700 hover:text-blue-600 font-medium"
-              >
-                {t("nav.advocateRegistration")}
-              </button>
+              {!userInfo ? (
+                <>
+                  <button
+                    onClick={() => {
+                      onAdvocateRegister?.();
+                      setIsMenuOpen(false);
+                    }}
+                    className="text-left text-gray-700 hover:text-blue-600 font-medium"
+                  >
+                    {t("nav.advocateRegistration")}
+                  </button>
+                  <a
+                    href="#login"
+                    onClick={() => handleNavClick("login")}
+                    className={mobileNavLinkClass("login")}
+                  >
+                    Login
+                  </a>
+                </>
+              ) : (
+                <>
+                  {userInfo.role === 'admin' && (
+                    <a
+                      href="#admin"
+                      onClick={() => handleNavClick("admin")}
+                      className={mobileNavLinkClass("admin")}
+                    >
+                      Admin Panel
+                    </a>
+                  )}
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("userInfo");
+                      setUserInfo(null);
+                      window.location.hash = "#home";
+                      window.location.reload();
+                    }}
+                    className="text-left text-red-600 hover:text-red-700 font-medium"
+                  >
+                    Logout
+                  </button>
+                </>
+              )}
               <div className="pt-2 border-t">
                 <button className="w-full bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors font-semibold">
                   {t("nav.emergency")}
