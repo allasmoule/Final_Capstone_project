@@ -41,7 +41,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
       id: 1,
       text:
         language === "bn"
-          ? "নমস্কার! আমি আপনার আইনি সহায়ক। আপনার কী সমস্যা? আমি সাহায্য করতে পারি। আপনি টেক্সট, ছবি, ভিডিও বা অডিও পাঠাতে পারেন।"
+          ? "হ্যালো! আমি আপনার আইনি সহায়ক। আপনার কী সমস্যা? আমি সাহায্য করতে পারি। আপনি টেক্সট, ছবি, ভিডিও বা অডিও পাঠাতে পারেন।"
           : "Hello! I am your legal assistant. What is your problem? I can help. You can send text, images, videos or audio.",
       sender: "bot",
       timestamp: new Date(),
@@ -214,7 +214,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 max-w-[90vw] bg-white rounded-lg shadow-2xl z-50 border">
+        <div className="fixed top-2 right-6 w-96 max-w-[90vw] bg-white rounded-lg shadow-2xl z-50 border flex flex-col" style={{ maxHeight: "calc(100vh - 25px)" }}>
           {/* Chat Header */}
           <div className="bg-blue-600 text-white p-4 rounded-t-lg flex justify-between items-center">
             <div className="flex items-center">
@@ -233,7 +233,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
           </div>
 
           {/* Messages */}
-          <div className="h-80 overflow-y-auto p-4 space-y-3">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {messages.map((message) => (
               <div
                 key={message.id}
