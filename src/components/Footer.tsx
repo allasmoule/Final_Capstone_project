@@ -250,9 +250,7 @@ const Footer = () => {
       <div className="border-t border-gray-800 py-6 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              {t("footer.copyright")}
-            </p>
+            
             <div className="flex items-center space-x-4 text-sm text-gray-400">
               <span>{t("footer.madeIn")}</span>
               <span>•</span>

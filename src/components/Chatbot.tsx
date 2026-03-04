@@ -143,7 +143,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
 
           const errorResponse: Message = {
             id: Date.now() + Math.random(),
-            text: "দুঃখিত, এই মুহূর্তে আমি আপনার প্রশ্নের উত্তর দিতে পারছি না। অনুগ্রহ করে আবার চেষ্টা করুন বা আমাদের হটলাইন ০১৮৪৪-৪৪৪৪৪৪ এ যোগাযোগ করুন।",
+            text: "দুঃখিত, এই মুহূর্তে আমি আপনার প্রশ্নের উত্তর দিতে পারছি না। অনুগ্রহ করে আবার চেষ্টা করুন বা আমাদের হটলাইন ০১৮৪৪-৪৪৪৪৪৪ এ যোগাযোগ করুন",
             sender: "bot",
             timestamp: new Date(),
           };
@@ -179,7 +179,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
               ? "Video"
               : "Audio";
       handleSendMessage(
-        `${typeLabel} ${language === "bn" ? "পাঠানো হয়েছে" : "sent"}: ${fileName}`,
+        `${typeLabel} ${language === "bn" ? "পাঠানো হয়েছে" : "sent successfully"}: ${fileName}`,
         type,
         fileUrl,
       );

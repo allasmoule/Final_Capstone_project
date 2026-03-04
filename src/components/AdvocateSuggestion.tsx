@@ -77,7 +77,7 @@ const AdvocateSuggestion: React.FC<AdvocateSuggestionProps> = ({
       experienceEn: "15+ years",
       location: "ঢাকা",
       locationEn: "Dhaka",
-      phone: "০১৭১১-১২৩৪৫৬",
+      phone: "0275637292394",
       image:
         "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=300",
       cases: 450,

@@ -36,7 +36,6 @@ function App() {
   >("home");
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
-  // Handle navigation
   React.useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
@@ -67,7 +66,6 @@ function App() {
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
-  // Load registered advocates from localStorage
   const getRegisteredAdvocates = (): Advocate[] => {
     try {
       return JSON.parse(localStorage.getItem("registeredAdvocates") || "[]");
