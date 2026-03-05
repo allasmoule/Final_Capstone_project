@@ -54,17 +54,27 @@ const CourseManagement = () => {
             const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
             const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
 
+            // Clean empty video entries
+            const payload = {
+                ...formData,
+                videos: formData.videos.filter((v: any) => v.title && v.videoUrl)
+            };
+
             if (editingCourse) {
-                await axios.put(`http://localhost:5000/api/courses/${editingCourse._id}`, formData, config);
+                await axios.put(`http://localhost:5000/api/courses/${editingCourse._id}`, payload, config);
+                alert("Course updated successfully");
             } else {
-                await axios.post(`http://localhost:5000/api/courses`, formData, config);
+                await axios.post(`http://localhost:5000/api/courses`, payload, config);
+                alert("Course created successfully");
             }
 
             setIsFormOpen(false);
             setEditingCourse(null);
             fetchCourses();
         } catch (err: any) {
-            alert(err.response?.data?.message || 'Failed to save course');
+            console.error("Course Save Error:", err);
+            const errorMsg = err.response?.data?.message || err.response?.data?.error || err.message || 'Failed to save course';
+            alert(`Failed: ${errorMsg}`);
         }
     };
 
@@ -122,6 +132,7 @@ const CourseManagement = () => {
     );
 
     if (loading) return <div className="text-center p-8">Loading Courses...</div>;
+    if (error) return <div className="text-center p-8 text-red-500 font-bold">{error}</div>;
 
     return (
         <div>

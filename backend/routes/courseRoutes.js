@@ -90,6 +90,7 @@ router.post('/', protect, admin, async (req, res) => {
         const createdCourse = await course.save();
         res.status(201).json(createdCourse);
     } catch (error) {
+        console.error("Error creating course:", error);
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 });
@@ -122,6 +123,7 @@ router.put('/:id', protect, admin, async (req, res) => {
             res.status(404).json({ message: 'Course not found' });
         }
     } catch (error) {
+        console.error("Error updating course:", error);
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 });
