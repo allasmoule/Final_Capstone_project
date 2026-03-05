@@ -37,16 +37,16 @@ const Header: React.FC<HeaderProps> = ({ onAdvocateRegister }) => {
   const navLinkClass = (route: string) => {
     const isActive = activeRoute === route;
     return `font-medium transition-colors ${isActive
-        ? "text-blue-600 border-b-2 border-blue-600 pb-1"
-        : "text-gray-700 hover:text-blue-600"
+      ? "text-blue-600 border-b-2 border-blue-600 pb-1"
+      : "text-gray-700 hover:text-blue-600"
       }`;
   };
 
   const mobileNavLinkClass = (route: string) => {
     const isActive = activeRoute === route;
     return `font-medium transition-colors ${isActive
-        ? "text-blue-600 bg-blue-50 px-3 py-2 rounded-lg"
-        : "text-gray-700 hover:text-blue-600"
+      ? "text-blue-600 bg-blue-50 px-3 py-2 rounded-lg"
+      : "text-gray-700 hover:text-blue-600"
       }`;
   };
 
@@ -143,6 +143,15 @@ const Header: React.FC<HeaderProps> = ({ onAdvocateRegister }) => {
                     className={navLinkClass("admin")}
                   >
                     Admin Panel
+                  </a>
+                )}
+                {userInfo.role !== 'admin' && (
+                  <a
+                    href="#student-dashboard"
+                    onClick={() => handleNavClick("student-dashboard")}
+                    className={navLinkClass("student-dashboard")}
+                  >
+                    My Courses
                   </a>
                 )}
                 <span className="text-sm font-medium text-gray-700">Hi, {userInfo.name}</span>
@@ -277,6 +286,15 @@ const Header: React.FC<HeaderProps> = ({ onAdvocateRegister }) => {
                       className={mobileNavLinkClass("admin")}
                     >
                       Admin Panel
+                    </a>
+                  )}
+                  {userInfo.role !== 'admin' && (
+                    <a
+                      href="#student-dashboard"
+                      onClick={() => handleNavClick("student-dashboard")}
+                      className={mobileNavLinkClass("student-dashboard")}
+                    >
+                      My Courses
                     </a>
                   )}
                   <button

@@ -5,6 +5,9 @@ import cors from 'cors';
 import authRoutes from './routes/auth.js';
 import adminRoutes from './routes/admin.js';
 import advocatesRoutes from './routes/advocates.js';
+import courseRoutes from './routes/courseRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import couponRoutes from './routes/couponRoutes.js';
 
 const app = express();
 
@@ -16,6 +19,9 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/advocates', advocatesRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/coupons', couponRoutes);
 
 // Database connection
 const PORT = process.env.PORT || 5000;

@@ -14,6 +14,8 @@ import { LanguageProvider } from "./context/LanguageContext";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import AdminDashboard from "./components/AdminDashboard";
+import StudentDashboard from "./components/StudentDashboard";
+import CoursePlayer from "./components/CoursePlayer";
 
 interface Advocate {
   id: number;
@@ -32,7 +34,7 @@ interface Advocate {
 
 function App() {
   const [currentPage, setCurrentPage] = useState<
-    "home" | "advocate-registration" | "contact" | "education" | "somjhota" | "login" | "register" | "admin"
+    "home" | "advocate-registration" | "contact" | "education" | "somjhota" | "login" | "register" | "admin" | "student-dashboard" | "course-player"
   >("home");
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
@@ -54,6 +56,10 @@ function App() {
         setCurrentPage("register");
       } else if (hash === "#admin") {
         setCurrentPage("admin");
+      } else if (hash === "#student-dashboard") {
+        setCurrentPage("student-dashboard");
+      } else if (hash.startsWith("#course-player")) {
+        setCurrentPage("course-player");
       } else {
         setCurrentPage("home");
       }
@@ -198,6 +204,30 @@ function App() {
             onAdvocateSuggestion={handleAdvocateSuggestion}
           />
         </div>
+      </LanguageProvider>
+    );
+  }
+
+  if (currentPage === "student-dashboard") {
+    return (
+      <LanguageProvider>
+        <div className="min-h-screen bg-white">
+          <Header
+            onAdvocateRegister={() => {
+              setCurrentPage("advocate-registration");
+              window.location.hash = "#advocate-registration";
+            }}
+          />
+          <StudentDashboard />
+        </div>
+      </LanguageProvider>
+    );
+  }
+
+  if (currentPage === "course-player") {
+    return (
+      <LanguageProvider>
+        <CoursePlayer />
       </LanguageProvider>
     );
   }
