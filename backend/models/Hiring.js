@@ -15,6 +15,9 @@ const hiringSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    attachedFiles: [{
+        type: String, // Store base64 strings or URLs
+    }],
     status: {
         type: String,
         enum: ['pending', 'active', 'completed', 'cancelled'],
